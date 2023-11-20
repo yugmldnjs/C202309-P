@@ -52,16 +52,56 @@ int main(void) {
       // printf("ID: %s, PW: %s", login_ptr[site_count][0],
       // login_ptr[site_count][1]);
 
-      printf("사이트: %s ID: %s PW: %s", site_name_ptr[site_count],
+      printf("사이트: %s ID: %s PW: %s\n", site_name_ptr[site_count],
              ID_ptr[site_count], PW_ptr[site_count]);
 
       site_count++;
 
     } else if (choice == 2) {
+
       /*기능 2. 로그인 정보 출력*/
-      /*기능 2.1 저장된 사이트 목록 출력*/
-      /*기능 2.2 전체 사이트의 로그인 정보 출력*/
-      /*기능 2.3 특정 사이트의 로그인 정보 출력*/
+      if (site_count == 0) {  // 저장된 정보가 있는지 확인. 없을 경우 오류 문구 출력
+        printf("저장된 로그인 정보가 없습니다. 로그인 정보를 추가하세요.\n");  
+      } else {
+
+        /*기능 2.1 저장된 사이트 목록 출력*/
+        printf("-- 사이트 목록 (총 %d) --\n", site_count);
+        for (int i = 0; i < site_count; i++) {
+          printf("   %d. %s\n", i + 1, site_name[i]);
+          
+        }
+        printf("------------------------\n");
+        while (1) {
+          int choice_2 = 0;
+          printf("------------------------\n");
+          printf("원하시는 기능을 선택하세요.\n");
+          printf(
+              "1. 전체 사이트 로그인 정보\n2. 특정 사이트의 로그인 정보\n3. 뒤로 "
+              "가기\n");
+          printf("------------------------\n");
+          printf("번호: ");
+          scanf_s("%d", &choice_2);
+          
+          if (choice_2 == 1) {
+          /*기능 2.2 전체 사이트의 로그인 정보 출력*/
+            for (int i = 0; i < site_count; i++) {
+            printf("%d. 사이트: %s  아이디: %s  비밀번호: %s\n", i+1,
+                   site_name[i], ID[i], PW[i]);
+             }
+          } else if (choice_2 == 2) {
+          /*기능 2.3 특정 사이트의 로그인 정보 출력*/
+             int site_choice;
+             printf("원하시는 사이트의 번호를 입력하세요: ");
+             scanf_s("%d", &site_choice);
+             printf("-> 사이트: %s  아이디: %s  비밀번호: %s\n",
+                    site_name[site_choice - 1], ID[site_choice - 1],
+                    PW[site_choice - 1]);
+          } else {
+          break;
+          }
+        }
+      }
+
     } else if (choice == 3) {
       /*기능 3. 로그인 정보 변경*/
     } else if (choice == 4) {
