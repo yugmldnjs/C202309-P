@@ -6,10 +6,10 @@
 
 /* 로그인 정보의 주소를 포인터 배열에 저장하는 함수
 (행: 사이트, 1열: ID, 2열: password)*/
-void CopyAddress(int* arr1, int* arr2, int** arr_ptr);
+void CopyAddress(char* arr, char** arr_ptr, int size);
 /*로그인 정보 삭제하는 함수*/
-void DelLogin(char* site[][CHAR_NUM], char* ID[][CHAR_NUM],
-              char* PW[][CHAR_NUM], int index);
+void DelLogin(char* site[][CHAR_NUM], char* id[][CHAR_NUM],
+              char* password[][CHAR_NUM], int index);
 
 
 /*로그인 정보 관리 프로그램*/
@@ -20,10 +20,10 @@ int main(void) {
   // TODO: 포인터 배열을 사용하는데 더 간단한 방법 생각해보기
   char site_name[SITE_NUM][CHAR_NUM];
   char* site_name_ptr[SITE_NUM];
-  char ID[SITE_NUM][CHAR_NUM];
-  char* ID_ptr[SITE_NUM];
-  char PW[SITE_NUM][CHAR_NUM];
-  char* PW_ptr[SITE_NUM];
+  char id[SITE_NUM][CHAR_NUM];
+  char* id_ptr[SITE_NUM];
+  char password[SITE_NUM][CHAR_NUM];
+  char* password_ptr[SITE_NUM];
 
   while (1) {
     printf("========================\n");
@@ -42,24 +42,24 @@ int main(void) {
       printf("사이트: ");
       scanf_s("%s", site_name[site_count],
               (int)sizeof(site_name[site_count]));  // TODO: 동적 메모리 할당
-      printf("ID: ");
-      scanf_s("%s", ID[site_count], (int)sizeof(ID[site_count]));
-      printf("PW: ");
-      scanf_s("%s", PW[site_count], (int)sizeof(PW[site_count]));
+      printf("아이디: ");
+      scanf_s("%s", id[site_count], (int)sizeof(id[site_count]));
+      printf("비밀번호: ");
+      scanf_s("%s", password[site_count], (int)sizeof(password[site_count]));
 
       printf("사이트: %s ", site_name[site_count]);
-      printf("ID: %s ", ID[site_count]);
-      printf("PW: %s\n", PW[site_count]);
+      printf("아이디: %s ", id[site_count]);
+      printf("비밀번호: %s\n", password[site_count]);
 
       CopyAddress(site_name[site_count], site_name_ptr, site_count);
-      CopyAddress(ID[site_count], ID_ptr, site_count);
-      CopyAddress(PW[site_count], PW_ptr, site_count);
+      CopyAddress(id[site_count], id_ptr, site_count);
+      CopyAddress(password[site_count], password_ptr, site_count);
 
       // printf("ID: %s, PW: %s", login_ptr[site_count][0],
       // login_ptr[site_count][1]);
 
-      printf("사이트: %s ID: %s PW: %s\n", site_name_ptr[site_count],
-             ID_ptr[site_count], PW_ptr[site_count]);
+      printf("사이트: %s 아이디: %s 비밀번호: %s\n", site_name_ptr[site_count],
+             id_ptr[site_count], password_ptr[site_count]);
 
       site_count++;
 
@@ -92,7 +92,7 @@ int main(void) {
           /*기능 2.2 전체 사이트의 로그인 정보 출력*/
             for (int i = 0; i < site_count; i++) {
             printf("%d. 사이트: %s  아이디: %s  비밀번호: %s\n", i+1,
-                   site_name[i], ID[i], PW[i]);
+                     site_name[i], id[i], password[i]);
              }
           } else if (choice_2 == 2) {
           /*기능 2.3 특정 사이트의 로그인 정보 출력*/
@@ -100,8 +100,8 @@ int main(void) {
              printf("원하시는 사이트의 번호를 입력하세요: ");
              scanf_s("%d", &site_choice);
              printf("-> 사이트: %s  아이디: %s  비밀번호: %s\n",
-                    site_name[site_choice - 1], ID[site_choice - 1],
-                    PW[site_choice - 1]);
+                    site_name[site_choice - 1], id[site_choice - 1],
+                    password[site_choice - 1]);
           } else {
           break;
           }
@@ -166,19 +166,19 @@ int main(void) {
           // 선택한 사이트의 현재 로그인 정보 출력
           printf("----현재 로그인 정보----\n");
           printf("사이트: %s\n아이디: %s\n비밀번호: %s\n",
-                 site_name[change_index - 1], ID[change_index - 1],
-                 PW[change_index - 1]);
+                 site_name[change_index - 1], id[change_index - 1],
+                 password[change_index - 1]);
           printf("------------------------\n");
 
           printf("변경할 비밀번호를 입력하세요: ");
-          scanf_s("%s", PW[change_index - 1],
-                  (int)sizeof(PW[change_index - 1]));
+          scanf_s("%s", password[change_index - 1],
+                  (int)sizeof(password[change_index - 1]));
 
           // 변경된 로그인 정보 출력
           printf("---변경된 로그인 정보---\n");
           printf("사이트: %s\n아이디: %s\n비밀번호: %s\n",
-                 site_name[change_index - 1], ID[change_index - 1],
-                 PW[change_index - 1]);
+                 site_name[change_index - 1], id[change_index - 1],
+                 password[change_index - 1]);
           printf("------------------------\n");
         } else {
           break;
@@ -199,5 +199,5 @@ int main(void) {
 
 // TODO: 함수 제대로 작동하도록 완성시키기
 void CopyAddress(char* arr, char** arr_ptr, int size) { arr_ptr[size] = arr; }
-void DelLogin(char* site[][CHAR_NUM], char* ID[][CHAR_NUM],
-              char* PW[][CHAR_NUM], int index) {}
+void DelLogin(char* site[][CHAR_NUM], char* id[][CHAR_NUM],
+              char* password[][CHAR_NUM], int index) {}
