@@ -18,12 +18,14 @@ int main(void) {
   int choice;          // 메인기능 선택 번호 저장 변수
   int site_count = 0;  // 사이트 수 저장하는 변수
 
-  // TODO: 포인터 배열을 사용하는데 더 간단한 방법 생각해보기
+  // 정적 메모리 할당
   char site_name[SITE_NUM][CHAR_NUM];
-  char* site_name_ptr[SITE_NUM];
   char id[SITE_NUM][CHAR_NUM];
-  char* id_ptr[SITE_NUM];
   char password[SITE_NUM][CHAR_NUM];
+
+  // 각 정보의 주소를 저장할 포인터 배열
+  char* site_name_ptr[SITE_NUM];
+  char* id_ptr[SITE_NUM];
   char* password_ptr[SITE_NUM];
 
   while (1) {
@@ -50,10 +52,6 @@ int main(void) {
       printf("비밀번호: ");
       scanf_s("%s", password[site_count], (int)sizeof(password[site_count]));
 
-      // 로그인 정보 저장 확인 코드
-      /*printf("site_name[0]: %s id[0]: %s password[]: %s\n",
-         site_name[site_count], id[site_count], password[site_count]);*/
-
       // 로그인 정보 포인터 배열에 저장
       CopyAddress(site_name[site_count], site_name_ptr, site_count);
       CopyAddress(id[site_count], id_ptr, site_count);
@@ -63,6 +61,16 @@ int main(void) {
       printf("\t사이트: %s\n\t아이디: %s\n\t비밀번호: %s\n",
              *(site_name_ptr + site_count), *(id_ptr + site_count),
              *(password_ptr + site_count));
+
+      // 로그인 정보 저장 확인 코드
+      /*printf("site_name[%d]: %s id[%d]: %s password[%d]: %s\n", site_count,
+             site_name[site_count], site_count, id[site_count], site_count,
+             password[site_count]);
+      printf(
+          "*(site_name_ptr + %d): %s *(id_ptr + %d): %s *(password_ptr + %d): "
+          "%s\n",
+          site_count, *(site_name_ptr + site_count), site_count,
+          *(id_ptr + site_count), site_count, *(password_ptr + site_count));*/
 
       site_count++;
 
@@ -83,7 +91,7 @@ int main(void) {
 
         printf("------------------------\n");
 
-        // 기능2의 하위 기능 목록 출력
+        /*기능2.2 로그인 정보 출력*/
         while (1) {
           int choice_2 = 0;
           printf("------------------------\n");
@@ -97,13 +105,13 @@ int main(void) {
           scanf_s("%d", &choice_2);
 
           if (choice_2 == 1) {
-            /*기능 2.2 전체 사이트의 로그인 정보 출력*/
+            /*기능 2.2.1 전체 사이트의 로그인 정보 출력*/
             for (int i = 0; i < site_count; i++) {
               printf("%d. 사이트: %s  아이디: %s  비밀번호: %s\n", i + 1,
-                     site_name[i], id[i], password[i]);
+                     *(site_name_ptr + i), *(id_ptr + i), *(password_ptr + i));
             }
           } else if (choice_2 == 2) {
-            /*기능 2.3 특정 사이트의 로그인 정보 출력*/
+            /*기능 2.2.2 특정 사이트의 로그인 정보 출력*/
             int site_choice;
             printf("원하시는 사이트의 번호를 입력하세요: ");
             scanf_s("%d", &site_choice);
@@ -161,7 +169,7 @@ int main(void) {
           // 전체 사이트 목록 출력
           printf("-- 사이트 목록 (총 %d) --\n", site_count);
           for (int i = 0; i < site_count; i++) {
-            printf("   %d. %s\n", i + 1, site_name[i]);
+            printf("   %d. %s\n", i + 1, *(site_name_ptr + i));
           }
 
           // 비밀번호를 변경할 사이트의 번호를 입력받기
@@ -171,8 +179,9 @@ int main(void) {
           // 선택한 사이트의 현재 로그인 정보 출력
           printf("----현재 로그인 정보----\n");
           printf("사이트: %s\n아이디: %s\n비밀번호: %s\n",
-                 site_name[change_index - 1], id[change_index - 1],
-                 password[change_index - 1]);
+                 *(site_name_ptr + change_index - 1),
+                 *(id_ptr + change_index - 1),
+                 *(password_ptr + change_index - 1));
           printf("------------------------\n");
 
           // 변경할 비밀번호 입력받기
@@ -187,6 +196,16 @@ int main(void) {
                  *(id_ptr + change_index - 1),
                  *(password_ptr + change_index - 1));
           printf("------------------------\n");
+
+          // 변경된 정보가 잘 저장되었는지 확인하는 코드
+          /*for (int i = 0; i < site_count; i++) {
+            printf(
+                "*(site_name_ptr + %d): %s *(id_ptr + %d): %s *(password_ptr + "
+                "%d): "
+                "%s\n",
+                i, *(site_name_ptr + i), i, *(id_ptr + i), i,
+                *(password_ptr + i));
+          }*/
         } else {
           // 메인기능 선택지로 이동
           break;
@@ -197,16 +216,16 @@ int main(void) {
       /*기능 4. 추천 비밀번호 생성*/
 
       // 비밀번호 추천에 사용할 문자 배열
-      char password_rec[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
-                             'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
-                             's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+      char rec_char[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
+                         'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
+                         's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
       printf("추천 비밀번호: ");
 
-      // 랜덤수의 나머지 위치의 인덱스에 맞는 문자를 출력을 반복하여 추천
-      // 비밀번호를 생성
+      /*랜덤수의 나머지 위치의 인덱스에 맞는 문자를 출력을 반복하여 추천
+      비밀번호를 생성*/
       for (int i = 0; i < 10; i++) {
         int random_index = rand() % 26;
-        printf("%c", *(password_rec + random_index));
+        printf("%c", *(rec_char + random_index));
 
         /*TODO: 대문자, 특수문자, 숫자를 포함하여 추천 비밀번호 생성*/
       }
@@ -224,6 +243,7 @@ int main(void) {
 }
 
 // TODO: 함수 제대로 작동하도록 완성시키기
+// 로그인 정보를 포인터 배열에 저장시키는 함수
 void CopyAddress(char* arr, char** arr_ptr, int size) { arr_ptr[size] = arr; }
 void DelLogin(char* site[][CHAR_NUM], char* id[][CHAR_NUM],
               char* password[][CHAR_NUM], int index) {}
