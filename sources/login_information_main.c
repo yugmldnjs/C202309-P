@@ -1,34 +1,40 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define SITE_NUM 10
-#define CHAR_NUM 100
+#include <string.h>
 
 // TODO: 포인터를 이용한 함수 완성하기
 // TODO: 동적 메모리 할당 사용하기
 
-/* 로그인 정보의 주소를 포인터 배열에 저장하는 함수
-(행: 사이트, 1열: ID, 2열: password)*/
-void CopyAddress(char* arr, char** arr_ptr, int size);
-/*로그인 정보 삭제하는 함수*/
-void DelLogin(char* site[][CHAR_NUM], char* id[][CHAR_NUM],
-              char* password[][CHAR_NUM], int index);
+// 로그인 정보를 저장하는 구조체
+typedef struct Login {
+  char* site_name;
+  char* id;
+  char* password;
+}LOGIN;
+
+/*로그인 정보 삭제하는 함수 선언*/
+//void DelLogin(char* site[][CHAR_NUM], char* id[][CHAR_NUM],
+//              char* password[][CHAR_NUM], int index);
+/*로그인 정보를 구조체에 저장하는 함수 선언*/
+void InitializeLogin(LOGIN* login_info);
 
 /*로그인 정보 관리 프로그램*/
 int main(void) {
   int choice;          // 메인기능 선택 번호 저장 변수
   int site_count = 0;  // 사이트 수 저장하는 변수
 
-  // 정적 메모리 할당
-  char site_name[SITE_NUM][CHAR_NUM];
-  char id[SITE_NUM][CHAR_NUM];
-  char password[SITE_NUM][CHAR_NUM];
+  printf("로그인 정보 관리 시스템\n");
+  printf("초기 정보 입력\n");
 
-  // 각 정보의 주소를 저장할 포인터 배열
-  char* site_name_ptr[SITE_NUM];
-  char* id_ptr[SITE_NUM];
-  char* password_ptr[SITE_NUM];
+  int site_num;
+  printf("저장하실 사이트의 수를 입력하세요: ");
+  scanf_s("%d", &site_num);
+
+  // 로그인 정보를 저장할 구조체 크기 동적할당
+  LOGIN* login_info = (LOGIN*)malloc(site_num);
 
   while (1) {
+
     printf("========================\n");
     printf("--메뉴를 선택해주세요.--\n");
     printf(
@@ -37,42 +43,25 @@ int main(void) {
     printf("========================\n");
     printf("번호: ");
     scanf_s("%d", &choice);
-    /*printf("%d", choice);*/  // 번호 저장 확인 코드
 
     if (choice == 1) {
-      /*TODO: 이미 저장되어 있는 사이트의 정보는 입력 받지 않는 코드 작성*/
-
       /*기능 1. 로그인 정보 저장*/
       /*기능 1.1 사용자로부터 로그인 정보 입력 받기*/
-      printf("사이트: ");
-      scanf_s("%s", site_name[site_count],
-              (int)sizeof(site_name[site_count]));  // TODO: 동적 메모리 할당
-      printf("아이디: ");
-      scanf_s("%s", id[site_count], (int)sizeof(id[site_count]));
-      printf("비밀번호: ");
-      scanf_s("%s", password[site_count], (int)sizeof(password[site_count]));
+      for (int i = 0; i < site_num; i++) {
+        printf("%d.      ", i + 1);
+        InitializeLogin(&login_info[i]);
+      }
 
-      // 로그인 정보 포인터 배열에 저장
-      CopyAddress(site_name[site_count], site_name_ptr, site_count);
-      CopyAddress(id[site_count], id_ptr, site_count);
-      CopyAddress(password[site_count], password_ptr, site_count);
-
-      printf("- 다음 로그인 정보가 저장 되었습니다 -\n");
-      printf("\t사이트: %s\n\t아이디: %s\n\t비밀번호: %s\n",
-             *(site_name_ptr + site_count), *(id_ptr + site_count),
-             *(password_ptr + site_count));
+      printf("-- 로그인 정보가 저장 되었습니다 --\n");
 
       // 로그인 정보 저장 확인 코드
-      /*printf("site_name[%d]: %s id[%d]: %s password[%d]: %s\n", site_count,
-             site_name[site_count], site_count, id[site_count], site_count,
-             password[site_count]);
-      printf(
-          "*(site_name_ptr + %d): %s *(id_ptr + %d): %s *(password_ptr + %d): "
-          "%s\n",
-          site_count, *(site_name_ptr + site_count), site_count,
-          *(id_ptr + site_count), site_count, *(password_ptr + site_count));*/
-
-      site_count++;
+      /*for (int i = 0; i < site_num; i++) {
+        printf("\t사이트: %s\n\t아이디: %s\n\t비밀번호: %s\n",
+               login_info[i].site_name, login_info[i].id,
+               login_info[i].password);
+      }*/
+      
+      site_count += site_num;
 
     } else if (choice == 2) {
       /*기능 2. 로그인 정보 출력*/
@@ -85,7 +74,7 @@ int main(void) {
 
         // 저장된 사이트 목록 순서대로 출력
         for (int i = 0; i < site_count; i++) {
-          printf("   %d. %s\n", i + 1, *(site_name_ptr + i));
+          printf("   %d. %s\n", i + 1, login_info[i].site_name);
           ;
         }
 
@@ -108,7 +97,7 @@ int main(void) {
             /*기능 2.2.1 전체 사이트의 로그인 정보 출력*/
             for (int i = 0; i < site_count; i++) {
               printf("%d. 사이트: %s  아이디: %s  비밀번호: %s\n", i + 1,
-                     *(site_name_ptr + i), *(id_ptr + i), *(password_ptr + i));
+                     login_info[i].site_name, login_info[i].id, login_info[i].password);
             }
           } else if (choice_2 == 2) {
             /*기능 2.2.2 특정 사이트의 로그인 정보 출력*/
@@ -116,9 +105,9 @@ int main(void) {
             printf("원하시는 사이트의 번호를 입력하세요: ");
             scanf_s("%d", &site_choice);
             printf("-> 사이트: %s  아이디: %s  비밀번호: %s\n",
-                   *(site_name_ptr + site_choice - 1),
-                   *(id_ptr + site_choice - 1),
-                   *(password_ptr + site_choice - 1));
+                   login_info[site_choice - 1].site_name,
+                   login_info[site_choice - 1].id,
+                   login_info[site_choice - 1].password);
           } else {
             // 메인 기능 선택지로 이동
             break;
@@ -148,7 +137,7 @@ int main(void) {
           // 전체 사이트 목록 출력
           printf("-- 사이트 목록 (총 %d) --\n", site_count);
           for (int i = 0; i < site_count; i++) {
-            printf("   %d. %s\n", i + 1, *(site_name_ptr + i));
+            printf("   %d. %s\n", i + 1, login_info[i].site_name);
           }
 
           printf("삭제를 원하시는 사이트의 번호를 입력하세요: ");
@@ -159,7 +148,7 @@ int main(void) {
           // DelLogin(site_name, ID, PW, del_choice);
 
           printf("'%s'의 로그인 정보가 정상적으로 삭제 되었습니다.\n",
-                 site_name[del_index - 1]);
+                 login_info[del_index - 1].site_name);
         }
 
         /*기능 3.2 비밀번호 변경*/
@@ -169,7 +158,7 @@ int main(void) {
           // 전체 사이트 목록 출력
           printf("-- 사이트 목록 (총 %d) --\n", site_count);
           for (int i = 0; i < site_count; i++) {
-            printf("   %d. %s\n", i + 1, *(site_name_ptr + i));
+            printf("   %d. %s\n", i + 1, login_info[i].site_name);
           }
 
           // 비밀번호를 변경할 사이트의 번호를 입력받기
@@ -179,32 +168,34 @@ int main(void) {
           // 선택한 사이트의 현재 로그인 정보 출력
           printf("----현재 로그인 정보----\n");
           printf("사이트: %s\n아이디: %s\n비밀번호: %s\n",
-                 *(site_name_ptr + change_index - 1),
-                 *(id_ptr + change_index - 1),
-                 *(password_ptr + change_index - 1));
+                 login_info[change_index - 1].site_name,
+                 login_info[change_index - 1].id,
+                 login_info[change_index - 1].password);
           printf("------------------------\n");
 
+          // TODO: 변경된 비밀번호 돋적할당
           // 변경할 비밀번호 입력받기
           printf("변경할 비밀번호를 입력하세요: ");
-          scanf_s("%s", password[change_index - 1],
-                  (int)sizeof(password[change_index - 1]));
+          scanf_s("%s", login_info[change_index - 1].password,
+                  (int)sizeof(login_info[change_index - 1].password));
 
           // 변경된 로그인 정보 출력
           printf("---변경된 로그인 정보---\n");
           printf("사이트: %s\n아이디: %s\n비밀번호: %s\n",
-                 *(site_name_ptr + change_index - 1),
-                 *(id_ptr + change_index - 1),
-                 *(password_ptr + change_index - 1));
+                 login_info[change_index - 1].site_name,
+                 login_info[change_index - 1].id,
+                 login_info[change_index - 1].password);
           printf("------------------------\n");
 
           // 변경된 정보가 잘 저장되었는지 확인하는 코드
           /*for (int i = 0; i < site_count; i++) {
             printf(
-                "*(site_name_ptr + %d): %s *(id_ptr + %d): %s *(password_ptr + "
-                "%d): "
+                "login_info[%d].site_name: %s login_info[%d].id: %s
+          login_info[%d].password: "
                 "%s\n",
-                i, *(site_name_ptr + i), i, *(id_ptr + i), i,
-                *(password_ptr + i));
+                i, login_info[change_index - 1].site_name,
+          i,login_info[change_index - 1].id, i, login_info[change_index -
+          1].password);
           }*/
         } else {
           // 메인기능 선택지로 이동
@@ -243,7 +234,31 @@ int main(void) {
 }
 
 // TODO: 함수 제대로 작동하도록 완성시키기
-// 로그인 정보를 포인터 배열에 저장시키는 함수
-void CopyAddress(char* arr, char** arr_ptr, int size) { arr_ptr[size] = arr; }
-void DelLogin(char* site[][CHAR_NUM], char* id[][CHAR_NUM],
-              char* password[][CHAR_NUM], int index) {}
+//void DelLogin(char* site[][CHAR_NUM], char* id[][CHAR_NUM],
+//              char* password[][CHAR_NUM], int index) {}
+
+// 로그인 정보를 구조체에 저장하는 함수 정의
+void InitializeLogin(LOGIN* login_info) {
+  // 사이트 입력받기: temp변수에 임시저장하여 동적할당 후 구조체에 저장
+  printf("사이트: ");
+  char temp1[100];
+  scanf_s("%s", temp1, (int)sizeof(temp1));
+  login_info->site_name = (char*)malloc((strlen(temp1) + 1) * sizeof(char));
+  strcpy_s(login_info->site_name, strlen(temp1) + 1, temp1);
+
+  printf("\t");
+
+  printf("아이디: ");
+  char temp2[100];
+  scanf_s("%s", temp2, (int)sizeof(temp2));
+  login_info->id = (char*)malloc((strlen(temp2) + 1) * sizeof(char));
+  strcpy_s(login_info->id, strlen(temp2) + 1, temp2);
+
+  printf("\t");
+
+  printf("비밀번호: ");
+  char temp3[100];
+  scanf_s("%s", temp3, (int)sizeof(temp3));
+  login_info->password = (char*)malloc((strlen(temp3) + 1) * sizeof(char));
+  strcpy_s(login_info->password, strlen(temp3) + 1, temp3);
+}
