@@ -3,11 +3,6 @@
 #include <string.h>
 #include "login_info.h"
 
-/*로그인 정보 삭제하는 함수 선언*/
-//void DelLogin(char* site[][CHAR_NUM], char* id[][CHAR_NUM],
-//              char* password[][CHAR_NUM], int index);
-
-
 /*로그인 정보 관리 프로그램*/
 int main(void) {
   int choice;          // 메인기능 선택 번호 저장 변수
@@ -60,16 +55,8 @@ int main(void) {
         printf("저장된 로그인 정보가 없습니다. 로그인 정보를 추가하세요.\n");
       } else {
         /*기능 2.1 저장된 사이트 목록 출력*/
-        printf("-- 사이트 목록 (총 %d) --\n", site_count);
-
-        // 저장된 사이트 목록 순서대로 출력
-        for (int i = 0; i < site_count; i++) {
-          printf("   %d. %s\n", i + 1, login_info[i].site_name);
-          ;
-        }
-
-        printf("------------------------\n");
-
+        PrintSiteList(login_info, site_count);
+                
         /*기능2.2 로그인 정보 출력*/
         while (1) {
           int choice_2 = 0;
@@ -122,14 +109,9 @@ int main(void) {
         if (choice_3 == 1) {
           int del_index;  // 삭제할 사이트 번호 저장 변수
 
-          /*TODO: 전체 사이트 목록을 출력하는 코드 함수화*/
-
           // 전체 사이트 목록 출력
-          printf("-- 사이트 목록 (총 %d) --\n", site_count);
-          for (int i = 0; i < site_count; i++) {
-            printf("   %d. %s\n", i + 1, login_info[i].site_name);
-          }
-
+          PrintSiteList(login_info, site_count);
+          
           printf("삭제를 원하시는 사이트의 번호를 입력하세요: ");
           scanf_s("%d", &del_index);
 
@@ -146,10 +128,7 @@ int main(void) {
           int change_index;  // 변경할 사이트의 번호를 저장하는 변수
 
           // 전체 사이트 목록 출력
-          printf("-- 사이트 목록 (총 %d) --\n", site_count);
-          for (int i = 0; i < site_count; i++) {
-            printf("   %d. %s\n", i + 1, login_info[i].site_name);
-          }
+          PrintSiteList(login_info, site_count);
 
           // 비밀번호를 변경할 사이트의 번호를 입력받기
           printf("비밀번호를 변경할 사이트를 선택해주세요: ");
@@ -163,11 +142,12 @@ int main(void) {
                  login_info[change_index - 1].password);
           printf("------------------------\n");
 
-          // TODO: 변경된 비밀번호 돋적할당
           // 변경할 비밀번호 입력받기
           printf("변경할 비밀번호를 입력하세요: ");
           scanf_s("%s", login_info[change_index - 1].password,
                   (int)sizeof(login_info[change_index - 1].password));
+
+          /*TODO: 로그인 정보 변경 후 다시 동적할당*/
 
           // 변경된 로그인 정보 출력
           printf("---변경된 로그인 정보---\n");
@@ -213,6 +193,16 @@ int main(void) {
       printf("\n");
     } else if (choice == 5) {
       /*프로그램 종료*/
+
+        // 동적 할당 해제
+      for (int i = 0; i < site_count; i++) {
+        free(login_info[i].site_name);
+        free(login_info[i].id);
+        free(login_info[i].password);
+      }
+      free(login_info);
+      
+      // 프로그램 종료
       printf("프로그램을 종료합니다.");
       break;
     } else {
@@ -222,8 +212,4 @@ int main(void) {
   }
   return 0;
 }
-
-// TODO: 함수 제대로 작동하도록 완성시키기
-//void DelLogin(char* site[][CHAR_NUM], char* id[][CHAR_NUM],
-//              char* password[][CHAR_NUM], int index) {}
 

@@ -27,3 +27,15 @@ void InitializeLogin(LOGIN* login_info) {
   login_info->password = (char*)malloc((strlen(temp3) + 1) * sizeof(char));
   strcpy_s(login_info->password, strlen(temp3) + 1, temp3);
 }
+
+/*전체 사이트 목록을 출력하는 함수 정의*/
+void PrintSiteList(LOGIN* p_login_info, int site_count) {
+  printf("-- 사이트 목록 (총 %d) --\n", site_count);
+  for (int i = 0; i < site_count; i++) {
+    printf("   %d. %s\n", i + 1, p_login_info[i].site_name);
+  }
+  printf("------------------------\n");
+}
+
+/*로그인 정보를 삭제하는 함수 정의*/
+void DelLoginInfo(LOGIN* login_info, int index) {}
