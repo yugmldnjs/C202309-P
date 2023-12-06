@@ -38,13 +38,6 @@ int main(void) {
       }
 
       printf("-- 로그인 정보가 저장 되었습니다 --\n");
-
-      // 로그인 정보 저장 확인 코드
-      for (int i = 0; i < site_num; i++) {
-        printf("\t사이트: %s\n\t아이디: %s\n\t비밀번호: %s\n",
-               login_info[i].site_name, login_info[i].id,
-               login_info[i].password);
-      }
       
       site_count += site_num;
 
@@ -81,13 +74,17 @@ int main(void) {
             int site_choice;
             printf("원하시는 사이트의 번호를 입력하세요: ");
             scanf_s("%d", &site_choice);
-            printf("-> 사이트: %s  아이디: %s  비밀번호: %s\n",
+            printf("-> %d. 사이트: %s  아이디: %s  비밀번호: %s\n", site_choice,
                    login_info[site_choice - 1].site_name,
                    login_info[site_choice - 1].id,
                    login_info[site_choice - 1].password);
-          } else {
+          } else if (choice_2 == 3) {
             // 메인 기능 선택지로 이동
             break;
+          }
+          else {
+            // 잘못된 번호 입력시 오류 메세지 출력
+            PrintErrorMessage(3);
           }
         }
       }
@@ -143,7 +140,6 @@ int main(void) {
           printf("------------------------\n");
 
           // 변경할 비밀번호 입력받기
-
           InitializeNewPassword(&login_info[change_index-1]);
 
           // 변경된 로그인 정보 출력
@@ -154,19 +150,12 @@ int main(void) {
                  login_info[change_index - 1].password);
           printf("------------------------\n");
 
-          // 변경된 정보가 잘 저장되었는지 확인하는 코드
-          /*for (int i = 0; i < site_count; i++) {
-            printf(
-                "login_info[%d].site_name: %s login_info[%d].id: %s
-          login_info[%d].password: "
-                "%s\n",
-                i, login_info[change_index - 1].site_name,
-          i,login_info[change_index - 1].id, i, login_info[change_index -
-          1].password);
-          }*/
-        } else {
+        } else if (choice_3 == 3) {
           // 메인기능 선택지로 이동
           break;
+        } else {
+          // 잘못된 번호 입력시 오류 메세지 출력
+          PrintErrorMessage(3);
         }
       }
 
@@ -191,7 +180,7 @@ int main(void) {
     } else if (choice == 5) {
       /*프로그램 종료*/
 
-        // 동적 할당 해제
+      // 동적 할당 해제
       for (int i = 0; i < site_count; i++) {
         free(login_info[i].site_name);
         free(login_info[i].id);
@@ -204,9 +193,8 @@ int main(void) {
       break;
     } else {
       // 잘못된 번호 입력시 오류 메세지 출력
-      printf("잘못된 입력입니다. 1~5 사이의 번호를 입력하세요.\n");
+      PrintErrorMessage(5);
     }
   }
   return 0;
 }
-
