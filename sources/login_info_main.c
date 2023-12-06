@@ -16,7 +16,7 @@ int main(void) {
   scanf_s("%d", &site_num);
 
   // 로그인 정보를 저장할 구조체 크기 동적할당
-  LOGIN* login_info = (LOGIN*)malloc(site_num);
+  LOGIN* login_info = (LOGIN*)malloc(site_num * sizeof(LOGIN));
 
   while (1) {
 
@@ -33,18 +33,18 @@ int main(void) {
       /*기능 1. 로그인 정보 저장*/
       /*기능 1.1 사용자로부터 로그인 정보 입력 받기*/
       for (int i = 0; i < site_num; i++) {
-        printf("%d.      ", i + 1);
+        printf("      %d.", i + 1);
         InitializeLogin(&login_info[i]);
       }
 
       printf("-- 로그인 정보가 저장 되었습니다 --\n");
 
       // 로그인 정보 저장 확인 코드
-      /*for (int i = 0; i < site_num; i++) {
+      for (int i = 0; i < site_num; i++) {
         printf("\t사이트: %s\n\t아이디: %s\n\t비밀번호: %s\n",
                login_info[i].site_name, login_info[i].id,
                login_info[i].password);
-      }*/
+      }
       
       site_count += site_num;
 
@@ -143,11 +143,8 @@ int main(void) {
           printf("------------------------\n");
 
           // 변경할 비밀번호 입력받기
-          printf("변경할 비밀번호를 입력하세요: ");
-          scanf_s("%s", login_info[change_index - 1].password,
-                  (int)sizeof(login_info[change_index - 1].password));
 
-          /*TODO: 로그인 정보 변경 후 다시 동적할당*/
+          InitializeNewPassword(&login_info[change_index-1]);
 
           // 변경된 로그인 정보 출력
           printf("---변경된 로그인 정보---\n");
