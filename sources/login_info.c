@@ -5,17 +5,13 @@
 /*로그인 정보를 구조체에 저장하는 함수 정의*/
 void InitializeLogin(LOGIN* login_info) {
  
-  printf("사이트: ");
+  printf("\t사이트: ");
   InitializeSite(login_info);
 
-  printf("\t");
-
-  printf("아이디: ");
+  printf("\t아이디: ");
   InitializeId(login_info);
 
-  printf("\t");
-
-  printf("비밀번호: ");
+  printf("\t비밀번호: ");
   InitializePassword(login_info);
 }
 
@@ -46,8 +42,8 @@ void InitializePassword(LOGIN* login_info) {
 }
 
 /*전체 사이트 목록을 출력하는 함수 정의*/
-void PrintSiteList(LOGIN* p_login_info, int site_count) {
-  printf("-- 사이트 목록 (총 %d) --\n", site_count);
+void PrintSiteList(LOGIN* p_login_info, int site_count, int max_info) {
+  printf("-- 사이트 목록 (%d/%d) --\n", site_count, max_info);
   for (int i = 0; i < site_count; i++) {
     printf("   %d. %s\n", i + 1, p_login_info[i].site_name);
   }
