@@ -15,7 +15,10 @@ void InitializeId(LOGIN* login_info);
 void InitializePassword(LOGIN* login_info);
 
 /*전체 사이트 목록을 출력하는 함수 선언*/
-void PrintSiteList(LOGIN* p_login_info, int site_count, int max_info);
+void PrintSiteList(LOGIN* p_login_info, int site_count);
+
+/*로그인 정보를 출력하는 함수 선언*/
+void PrintSiteLoginInfo(LOGIN* p_login_info, int site_count, int index);
 
 /*로그인 정보를 삭제하는 함수 선언*/
 void DelLoginInfo(LOGIN* login_info, int index);

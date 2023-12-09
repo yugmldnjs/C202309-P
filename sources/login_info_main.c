@@ -8,7 +8,7 @@ int main(void) {
   int choice;          // 메인기능 선택 번호 저장 변수
   int site_count = 0;  // 사이트 수 저장하는 변수
   int max_info = 10;   // 최대 입력 가능한 정보 저장 변수
-  printf("로그인 정보 관리 시스템\n");
+  printf("로그인 정보 관리 시스템\n\n");
 
   // 로그인 정보를 저장할 구조체 크기 동적할당
   LOGIN* login_info = (LOGIN*)malloc(max_info * sizeof(LOGIN));
@@ -45,7 +45,7 @@ int main(void) {
         printf("저장된 로그인 정보가 없습니다. 로그인 정보를 추가하세요.\n");
       } else {
         /*기능 2.1 저장된 사이트 목록 출력*/
-        PrintSiteList(login_info, site_count, max_info);
+        PrintSiteList(login_info, site_count);
                 
         /*기능2.2 로그인 정보 출력*/
         while (1) {
@@ -62,19 +62,15 @@ int main(void) {
 
           if (choice_2 == 1) {
             /*기능 2.2.1 전체 사이트의 로그인 정보 출력*/
-            for (int i = 0; i < site_count; i++) {
-              printf("%d. 사이트: %s  아이디: %s  비밀번호: %s\n", i + 1,
-                     login_info[i].site_name, login_info[i].id, login_info[i].password);
-            }
+            PrintSiteLoginInfo(login_info, site_count, 0);
           } else if (choice_2 == 2) {
             /*기능 2.2.2 특정 사이트의 로그인 정보 출력*/
             int site_choice;
             printf("원하시는 사이트의 번호를 입력하세요: ");
             scanf_s("%d", &site_choice);
-            printf("-> %d. 사이트: %s  아이디: %s  비밀번호: %s\n", site_choice,
-                   login_info[site_choice - 1].site_name,
-                   login_info[site_choice - 1].id,
-                   login_info[site_choice - 1].password);
+            printf("----%d번 로그인 정보----\n", site_choice);
+            PrintSiteLoginInfo(login_info, site_count, site_choice);
+
           } else if (choice_2 == 3) {
             // 메인 기능 선택지로 이동
             break;
@@ -104,7 +100,7 @@ int main(void) {
           int del_index;  // 삭제할 사이트 번호 저장 변수
 
           // 전체 사이트 목록 출력
-          PrintSiteList(login_info, site_count,max_info);
+          PrintSiteList(login_info, site_count);
           
           printf("삭제를 원하시는 사이트의 번호를 입력하세요: ");
           scanf_s("%d", &del_index);
@@ -122,7 +118,7 @@ int main(void) {
           int change_index;  // 변경할 사이트의 번호를 저장하는 변수
 
           // 전체 사이트 목록 출력
-          PrintSiteList(login_info, site_count, max_info);
+          PrintSiteList(login_info, site_count);
 
           // 비밀번호를 변경할 사이트의 번호를 입력받기
           printf("비밀번호를 변경할 사이트를 선택해주세요: ");
@@ -130,22 +126,14 @@ int main(void) {
 
           // 선택한 사이트의 현재 로그인 정보 출력
           printf("----현재 로그인 정보----\n");
-          printf("사이트: %s\n아이디: %s\n비밀번호: %s\n",
-                 login_info[change_index - 1].site_name,
-                 login_info[change_index - 1].id,
-                 login_info[change_index - 1].password);
-          printf("------------------------\n");
+          PrintSiteLoginInfo(login_info, site_count, change_index);
 
           // 변경할 비밀번호 입력받기
           InitializeNewPassword(&login_info[change_index-1]);
 
           // 변경된 로그인 정보 출력
           printf("---변경된 로그인 정보---\n");
-          printf("사이트: %s\n아이디: %s\n비밀번호: %s\n",
-                 login_info[change_index - 1].site_name,
-                 login_info[change_index - 1].id,
-                 login_info[change_index - 1].password);
-          printf("------------------------\n");
+          PrintSiteLoginInfo(login_info, site_count, change_index);
 
         } else if (choice_3 == 3) {
           // 메인기능 선택지로 이동
@@ -172,6 +160,8 @@ int main(void) {
         printf("%c", *(rec_char + random_index));
 
         /*TODO: 대문자, 특수문자, 숫자를 포함하여 추천 비밀번호 생성*/
+        /*TODO: 추천 받은 비밀번호 바로 저장 기능 추가 
+        (1.새로운 정보 2.기존 정보)*/
       }
       printf("\n");
     } else if (choice == 5) {

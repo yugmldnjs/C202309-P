@@ -4,14 +4,14 @@
 
 /*로그인 정보를 구조체에 저장하는 함수 정의*/
 void InitializeLogin(LOGIN* login_info) {
- 
-  printf("\t사이트: ");
+  // 사이트명 구조체 변수에 저장
+  printf("   사이트: ");
   InitializeSite(login_info);
-
-  printf("\t아이디: ");
+  // 아이디 구조체 변수에 저장
+  printf("   아이디: ");
   InitializeId(login_info);
-
-  printf("\t비밀번호: ");
+  // 비밀번호 구조체 변수에 저장
+  printf("   비밀번호: ");
   InitializePassword(login_info);
 }
 
@@ -42,12 +42,27 @@ void InitializePassword(LOGIN* login_info) {
 }
 
 /*전체 사이트 목록을 출력하는 함수 정의*/
-void PrintSiteList(LOGIN* p_login_info, int site_count, int max_info) {
-  printf("-- 사이트 목록 (%d/%d) --\n", site_count, max_info);
+void PrintSiteList(LOGIN* p_login_info, int site_count) {
+  printf("-- 사이트 목록 (총 %d) --\n", site_count);
   for (int i = 0; i < site_count; i++) {
     printf("   %d. %s\n", i + 1, p_login_info[i].site_name);
   }
   printf("------------------------\n");
+}
+
+/*로그인 정보를 출력하는 함수 선언*/
+void PrintSiteLoginInfo(LOGIN* p_login_info, int site_count, int index) {
+  if (index == 0) {
+    for (int i = 0; i < site_count; i++) {
+      printf("%d. 사이트: %s  아이디: %s  비밀번호: %s\n", i + 1,
+             p_login_info[i].site_name, p_login_info[i].id, p_login_info[i].password);
+    }
+  } else {
+    printf("사이트: %s\n아이디: %s\n비밀번호: %s\n",
+           p_login_info[index - 1].site_name, p_login_info[index - 1].id,
+           p_login_info[index - 1].password);
+    printf("------------------------\n");
+  }
 }
 
 //TODO: 로그인 정보 삭제 함수 완성
