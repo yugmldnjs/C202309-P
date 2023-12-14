@@ -62,14 +62,14 @@ int main(void) {
 
           if (choice_2 == 1) {
             /*기능 2.2.1 전체 사이트의 로그인 정보 출력*/
-            PrintSiteLoginInfo(login_info, site_count, 0);
+            PrintLoginInfo(login_info, site_count, 0);
           } else if (choice_2 == 2) {
             /*기능 2.2.2 특정 사이트의 로그인 정보 출력*/
             int site_choice;
             printf("원하시는 사이트의 번호를 입력하세요: ");
             scanf_s("%d", &site_choice);
             printf("----%d번 로그인 정보----\n", site_choice);
-            PrintSiteLoginInfo(login_info, site_count, site_choice);
+            PrintLoginInfo(login_info, site_count, site_choice);
 
           } else if (choice_2 == 3) {
             // 메인 기능 선택지로 이동
@@ -107,7 +107,8 @@ int main(void) {
 
           /*TODO: 로그인 정보 삭제 하는 코드 작성*/
 
-          // DelLogin(site_name, ID, PW, del_choice);
+          DelLoginInfo(&login_info,&site_count, del_index);
+          
 
           printf("'%s'의 로그인 정보가 정상적으로 삭제 되었습니다.\n",
                  login_info[del_index - 1].site_name);
@@ -126,14 +127,14 @@ int main(void) {
 
           // 선택한 사이트의 현재 로그인 정보 출력
           printf("----현재 로그인 정보----\n");
-          PrintSiteLoginInfo(login_info, site_count, change_index);
+          PrintLoginInfo(login_info, site_count, change_index);
 
           // 변경할 비밀번호 입력받기
           InitializeNewPassword(&login_info[change_index-1]);
 
           // 변경된 로그인 정보 출력
           printf("---변경된 로그인 정보---\n");
-          PrintSiteLoginInfo(login_info, site_count, change_index);
+          PrintLoginInfo(login_info, site_count, change_index);
 
         } else if (choice_3 == 3) {
           // 메인기능 선택지로 이동

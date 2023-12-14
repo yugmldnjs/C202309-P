@@ -50,8 +50,8 @@ void PrintSiteList(LOGIN* p_login_info, int site_count) {
   printf("------------------------\n");
 }
 
-/*로그인 정보를 출력하는 함수 선언*/
-void PrintSiteLoginInfo(LOGIN* p_login_info, int site_count, int index) {
+/*로그인 정보를 출력하는 함수 정의*/
+void PrintLoginInfo(LOGIN* p_login_info, int site_count, int index) {
   if (index == 0) {
     for (int i = 0; i < site_count; i++) {
       printf("%d. 사이트: %s  아이디: %s  비밀번호: %s\n", i + 1,
@@ -66,8 +66,18 @@ void PrintSiteLoginInfo(LOGIN* p_login_info, int site_count, int index) {
 }
 
 //TODO: 로그인 정보 삭제 함수 완성
+//TODO: error 해결
 /*로그인 정보를 삭제하는 함수 정의*/
-void DelLoginInfo(LOGIN* login_info, int index) {}
+void DelLoginInfo(LOGIN** login_info, int* site_count, int index) {
+  *site_count--;
+  for (int i = 0; i < site_count; i++) {
+    if (i >= index - 1) {
+      strcpy_s(login_info[i], sizeof(login_info[i]), login_info[i + 1]);
+    } else {
+      strcpy_s(login_info[i], sizeof(login_info[i]), login_info[i]);
+    }
+  }
+}
 
 /*비밀번호 변경 후 구조체 변수에 저장하는 함수 정의*/
 void InitializeNewPassword(LOGIN* login_info) {
