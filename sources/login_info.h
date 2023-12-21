@@ -21,7 +21,7 @@ void PrintSiteList(LOGIN* p_login_info, int site_count);
 void PrintLoginInfo(LOGIN* p_login_info, int site_count, int index);
 
 /*로그인 정보를 삭제하는 함수 선언*/
-void DelLoginInfo(LOGIN** login_info, int* site_count, int index);
+void DelLoginInfo(LOGIN* login_info, int site_count);
 
 /*비밀번호 변경하는 함수 선언*/
 void InitializeNewPassword(LOGIN* login_info);
