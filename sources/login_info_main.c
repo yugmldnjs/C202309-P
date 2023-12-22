@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 #include "login_info.h"
 
 /*로그인 정보 관리 프로그램*/
@@ -104,7 +103,7 @@ int main(void) {
             // 전체 사이트 목록 출력
             PrintSiteList(login_info, site_count);
 
-            /*TODO: 로그인 정보 삭제 하는 코드 작성*/
+            // 로그인 정보 삭제
             DelLoginInfo(login_info, site_count);
             site_count--;
 
@@ -147,21 +146,25 @@ int main(void) {
       /*기능 4. 추천 비밀번호 생성*/
 
       // 비밀번호 추천에 사용할 문자 배열
-      char rec_char[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
-                         'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
-                         's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
-      printf("추천 비밀번호: ");
+      char rec_char[] =
+          "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*_";
+       int password_len = 0;
+      printf("몇자리 비밀번호? ");
+      scanf_s("%d", &password_len);
+       char* rec_password = (char*)malloc(password_len + 1);
+       printf("추천 비밀번호: ");
 
       /*랜덤수의 나머지 위치의 인덱스에 맞는 문자를 출력을 반복하여 추천
       비밀번호를 생성*/
-      for (int i = 0; i < 10; i++) {
-        int random_index = rand() % 26;
-        printf("%c", *(rec_char + random_index));
+      for (int i = 0; i < password_len; i++) {
+        rec_password[i] = rec_char[rand() % strlen(rec_char)];
 
-        /*TODO: 대문자, 특수문자, 숫자를 포함하여 추천 비밀번호 생성*/
+        /*TODO: 숫자를 포함하여 추천 비밀번호 생성*/
         /*TODO: 추천 받은 비밀번호 바로 저장 기능 추가
         (1.새로운 정보 2.기존 정보)*/
-      }
+      }      
+      rec_password[password_len] = '\0';
+      printf("%s", rec_password);
       printf("\n");
     } else if (choice == 5) {
       /*프로그램 종료*/

@@ -1,7 +1,6 @@
-#include "login_info.h"
-
 #include <stdlib.h>
 #include <string.h>
+#include "login_info.h"
 
 /*로그인 정보를 구조체에 저장하는 함수 정의*/
 void InitializeLogin(LOGIN* login_info) {
