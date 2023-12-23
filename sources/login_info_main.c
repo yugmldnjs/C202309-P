@@ -32,7 +32,10 @@ int main(void) {
     if (choice == 1) {
       /*기능 1. 로그인 정보 저장*/
       /*기능 1.1 사용자로부터 로그인 정보 입력 받기*/
-      InitializeLogin(&login_info[site_count]);
+      //InitializeLogin(&login_info[site_count]);
+      InitializeSite(&login_info[site_count]);
+      InitializeId(&login_info[site_count]);
+      InitializePassword(&login_info[site_count]);
       site_count++;
 
       printf("-- 로그인 정보가 저장 되었습니다 --\n");
@@ -146,8 +149,10 @@ int main(void) {
       /*기능 4. 추천 비밀번호 생성*/
 
       // 비밀번호 추천에 사용할 문자 배열
-      char rec_char[] =
-          "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*_";
+      char rec_alphabet[] =
+          "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      char rec_mark[] = "~!@#$%^&*_-/?";
+      char rec_num[] = "0123456789";
        int password_len = 0;
       printf("몇자리 비밀번호? ");
       scanf_s("%d", &password_len);
@@ -157,7 +162,7 @@ int main(void) {
       /*랜덤수의 나머지 위치의 인덱스에 맞는 문자를 출력을 반복하여 추천
       비밀번호를 생성*/
       for (int i = 0; i < password_len; i++) {
-        rec_password[i] = rec_char[rand() % strlen(rec_char)];
+        rec_password[i] = rec_alphabet[rand() % strlen(rec_alphabet)];
 
         /*TODO: 숫자를 포함하여 추천 비밀번호 생성*/
         /*TODO: 추천 받은 비밀번호 바로 저장 기능 추가
@@ -166,6 +171,46 @@ int main(void) {
       rec_password[password_len] = '\0';
       printf("%s", rec_password);
       printf("\n");
+      int choice_4;
+      printf(
+          "1. 새로운 로그인 정보에 추가\n2. 기존 로그인 정보에 추가\n3. 뒤로 "
+          "가기\n번호: ");
+      scanf_s("%d", &choice_4);
+      if (choice_4 == 1) {
+        InitializeSite(&login_info[site_count]);
+        InitializeId(&login_info[site_count]);
+        login_info[site_count].password =
+            (char*)malloc((strlen(rec_password) + 1) * sizeof(char));
+        strcpy_s(login_info[site_count].password, strlen(rec_password) + 1, rec_password);
+        site_count++;
+
+      } else if(choice_4==2){
+        int change_index;  // 변경할 사이트의 번호를 저장하는 변수
+
+        // 전체 사이트 목록 출력
+        PrintSiteList(login_info, site_count);
+
+        // 비밀번호를 변경할 사이트의 번호를 입력받기
+        printf("비밀번호를 변경할 사이트를 선택해주세요: ");
+        scanf_s("%d", &change_index);
+
+        // 선택한 사이트의 현재 로그인 정보 출력
+        printf("----현재 로그인 정보----\n");
+        PrintLoginInfo(login_info, site_count, change_index);
+
+        // 변경할 비밀번호 입력받기
+        // 변경할 사이트의 비밀번호 동적할당 해제
+        free(login_info->password);
+
+        login_info->password =
+            (char*)malloc((strlen(rec_password) + 1) * sizeof(char));
+        strcpy_s(login_info->password, strlen(rec_password) + 1, rec_password);
+
+        // 변경된 로그인 정보 출력
+        printf("---변경된 로그인 정보---\n");
+        PrintLoginInfo(login_info, site_count, change_index);
+      }
+
     } else if (choice == 5) {
       /*프로그램 종료*/
 

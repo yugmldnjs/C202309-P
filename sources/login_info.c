@@ -3,21 +3,22 @@
 #include "login_info.h"
 
 /*로그인 정보를 구조체에 저장하는 함수 정의*/
-void InitializeLogin(LOGIN* login_info) {
-  // 사이트명 구조체 변수에 저장
-  printf("   사이트: ");
-  InitializeSite(login_info);
-  // 아이디 구조체 변수에 저장
-  printf("   아이디: ");
-  InitializeId(login_info);
-  // 비밀번호 구조체 변수에 저장
-  printf("   비밀번호: ");
-  InitializePassword(login_info);
-}
+//void InitializeLogin(LOGIN* login_info) {
+//  // 사이트명 구조체 변수에 저장
+//  printf("   사이트: ");
+//  InitializeSite(login_info);
+//  // 아이디 구조체 변수에 저장
+//  printf("   아이디: ");
+//  InitializeId(login_info);
+//  // 비밀번호 구조체 변수에 저장
+//  printf("   비밀번호: ");
+//  InitializePassword(login_info);
+//}
 
 // 사이트명을 구조체 변수에 저장하는 함수 정의
 void InitializeSite(LOGIN* login_info) {
   char temp[100];  // 입력받은 값 임시 저장 변수
+  printf("   사이트: ");
   scanf_s("%s", temp, (int)sizeof(temp));
 
   // 동적할당 & 구조체에 저장
@@ -28,6 +29,7 @@ void InitializeSite(LOGIN* login_info) {
 // 아이디를 구조체 변수에 저장하는 함수 정의
 void InitializeId(LOGIN* login_info) {
   char temp[100];
+  printf("   아이디: ");
   scanf_s("%s", temp, (int)sizeof(temp));
   login_info->id = (char*)malloc((strlen(temp) + 1) * sizeof(char));
   strcpy_s(login_info->id, strlen(temp) + 1, temp);
@@ -36,6 +38,7 @@ void InitializeId(LOGIN* login_info) {
 // 비밀번호를 구조체 변수에 저장하는 함수 정의
 void InitializePassword(LOGIN* login_info) {
   char temp[100];
+  printf("   비밀번호: ");
   scanf_s("%s", temp, (int)sizeof(temp));
   login_info->password = (char*)malloc((strlen(temp) + 1) * sizeof(char));
   strcpy_s(login_info->password, strlen(temp) + 1, temp);
