@@ -2,19 +2,6 @@
 #include <string.h>
 #include "login_info.h"
 
-/*로그인 정보를 구조체에 저장하는 함수 정의*/
-//void InitializeLogin(LOGIN* login_info) {
-//  // 사이트명 구조체 변수에 저장
-//  printf("   사이트: ");
-//  InitializeSite(login_info);
-//  // 아이디 구조체 변수에 저장
-//  printf("   아이디: ");
-//  InitializeId(login_info);
-//  // 비밀번호 구조체 변수에 저장
-//  printf("   비밀번호: ");
-//  InitializePassword(login_info);
-//}
-
 // 사이트명을 구조체 변수에 저장하는 함수 정의
 void InitializeSite(LOGIN* login_info) {
   char temp[100];  // 입력받은 값 임시 저장 변수
@@ -57,7 +44,7 @@ void PrintSiteList(LOGIN* p_login_info, int site_count) {
 void PrintLoginInfo(LOGIN* p_login_info, int site_count, int index) {
   if (index == 0) {
     // 전체 로그인 정보 출력
-    printf("------------------------\n");
+    printf("--- 전체 로그인 정보 ---\n");
     for (int i = 0; i < site_count; i++) {
       printf("%d. 사이트: %s  아이디: %s  비밀번호: %s\n", i + 1,
              p_login_info[i].site_name, p_login_info[i].id,

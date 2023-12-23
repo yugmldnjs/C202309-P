@@ -5,13 +5,13 @@ typedef struct Login {
   char* password;
 } LOGIN;
 
-/*로그인 정보를 구조체에 저장하는 함수 선언*/
-void InitializeLogin(LOGIN* login_info);
-// 사이트명을 구조체 변수에 저장하는 함수 선언
+/*사이트명을 구조체 변수에 저장하는 함수 선언*/
 void InitializeSite(LOGIN* login_info);
-// 아이디를 구조체 변수에 저장하는 함수	선언
+
+/*아이디를 구조체 변수에 저장하는 함수	선언*/
 void InitializeId(LOGIN* login_info);
-// 비밀번호를 구조체 변수에 저장하는 함수 선언
+
+/*비밀번호를 구조체 변수에 저장하는 함수 선언*/
 void InitializePassword(LOGIN* login_info);
 
 /*전체 사이트 목록을 출력하는 함수 선언*/
