@@ -1,6 +1,7 @@
+#include "login_info.h"
+
 #include <stdlib.h>
 #include <string.h>
-#include "login_info.h"
 
 // 사이트명을 구조체 변수에 저장하는 함수 정의
 void InitializeSite(LOGIN* login_info) {
