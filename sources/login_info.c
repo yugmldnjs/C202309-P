@@ -84,7 +84,7 @@ void InitializeNewPassword(LOGIN* login_info) {
   free(login_info->password);
 
   // 새로운 비밀번호 입력받기
-  printf("새로운 비밀번호를 입력하세요: ");
+  printf("새로운");
   InitializePassword(login_info);
 }
 

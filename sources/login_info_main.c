@@ -37,7 +37,7 @@ int main(void) {
       InitializeId(&login_info[site_count]);
       InitializePassword(&login_info[site_count]);
       site_count++;
-
+      
       printf("-- 로그인 정보가 저장 되었습니다 --\n");
 
     } else if (choice == 2) {
@@ -168,6 +168,7 @@ int main(void) {
         rec_password[i] = rec_arr[rand() % strlen(rec_arr)];
       }
       rec_password[password_len] = '\0';  // 맨 뒤의 자리에 null값 저장
+
       printf("  추천 비밀번호: %s", rec_password);
       printf("\n");
 
